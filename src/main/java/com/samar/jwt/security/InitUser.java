@@ -21,7 +21,7 @@ public class InitUser implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (userRepository.findByUsername("admin").isEmpty()) {
-            AppUser appUser = new AppUser(null, "admin", passwordEncoder.encode("admin123"), "USER");
+            AppUser appUser = new AppUser(null, "admin", passwordEncoder.encode("admin123"), "Samar", "samar@yopmail.com");
             userRepository.save(appUser);
         }
 

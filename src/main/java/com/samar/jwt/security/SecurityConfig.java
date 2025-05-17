@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
 
-
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationFilter jwtAuthFilter;
 
@@ -34,7 +33,6 @@ public class SecurityConfig {
     }
 
 
-
     public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthenticationFilter jwtAuthFilter) {
         this.customUserDetailsService = customUserDetailsService;
         this.jwtAuthFilter = jwtAuthFilter;
@@ -44,15 +42,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**", "/auth/**").permitAll()
-                        .requestMatchers("api/welcome/**").hasRole("USER")
-                        //.anyRequest().authenticated()
+                .authorizeHttpRequests(auth -> {
+                            auth.requestMatchers("/h2-console/**", "/auth/**").permitAll();
+                            auth.requestMatchers("api/welcome/**");
+                            auth.anyRequest().authenticated();
+                        }
+
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-    }
+}
 
