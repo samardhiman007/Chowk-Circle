@@ -1,6 +1,7 @@
 package com.samar.jwt.security;
 
 import com.samar.jwt.domain.AppUser;
+import com.samar.jwt.enums.Role;
 import com.samar.jwt.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +22,7 @@ public class InitUser implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (userRepository.findByUsername("admin").isEmpty()) {
-            AppUser appUser = new AppUser(null, "admin", passwordEncoder.encode("admin123"), "Samar", "samar@yopmail.com");
+            AppUser appUser = new AppUser("admin", passwordEncoder.encode("admin123"), "Samar", "samar@yopmail.com", Role.ADMIN);
             userRepository.save(appUser);
         }
 
